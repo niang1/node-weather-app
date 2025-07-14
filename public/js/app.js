@@ -2,9 +2,7 @@ function fetch(location) {
   message_loading.innerHTML = 'Loading....';
   message_weather.innerHTML = '';
   axios
-    .get(
-      `http://localhost:3000/weather?address=${encodeURIComponent(location)}`
-    )
+    .get(`/weather?address=${encodeURIComponent(location)}`)
     .then((response) => {
       if (response.data.error) {
         message_loading.innerHTML = '';
