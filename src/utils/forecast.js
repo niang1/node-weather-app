@@ -6,6 +6,7 @@ const forecast = (latitude, longitude, callback) => {
   axios
     .get(url)
     .then((response) => {
+      // console.log(response.data);
       const data = {
         temperature: response.data.current.temperature,
         feelslike: response.data.current.feelslike,
@@ -19,7 +20,7 @@ const forecast = (latitude, longitude, callback) => {
       };
       callback(
         undefined,
-        `${data.location} : ${data.weather_desciption}. It is currently ${data.temperature} degres out. It feels like ${data.feelslike} degres`
+        `<div class="weather_div"><img src=${response.data.current.weather_icons[0]}><span style="margin-left:16px">   ${data.location} : ${data.weather_desciption}. It is currently ${data.temperature} degres out. It feels like ${data.feelslike} degres </span></div>`
       );
       //callback(undefined, response.data);
     })
