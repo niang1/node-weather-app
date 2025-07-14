@@ -20,7 +20,7 @@ const forecast = (latitude, longitude, callback) => {
       };
       callback(
         undefined,
-        `<div class="weather_div"><img src=${response.data.current.weather_icons[0]}><span style="margin-left:16px">   ${data.location} : ${data.weather_desciption}. It is currently ${data.temperature} degres out. It feels like ${data.feelslike} degres </span></div>`
+        `<div class="weather_div"><img src=${response.data.current.weather_icons[0]}><span style="margin-left:16px">  ${response.data.location.localtime} |  ${data.location} : ${data.weather_desciption}. It is currently ${data.temperature} degres out. It feels like ${data.feelslike} degres </span></div>`
       );
       //callback(undefined, response.data);
     })
