@@ -63,14 +63,11 @@ app.get('/weather', (req, res) => {
   geocode(req.query.address)
     .then((data) => {
       //console.log(data);
-      forecast(data.latitude, data.longitude)
-        .then((dataForecast) => {
-          //    console.log(dataForecast);
-          res.send({ forecast: dataForecast });
-        })
-        .catch((error) => {
-          res.send({ error });
-        });
+      return forecast(data.latitude, data.longitude);
+    })
+    .then((dataForecast) => {
+      //    console.log(dataForecast);
+      res.send({ forecast: dataForecast });
     })
     .catch((error) => {
       res.send({ error });
