@@ -3,6 +3,7 @@ const path = require('path');
 const hbs = require('hbs');
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
+const { error } = require('console');
 
 const publicDirPath = path.join(__dirname, '../public');
 const viewsDir = path.join(__dirname, '../templates/views');
@@ -47,10 +48,18 @@ app.get('/help/:anything', (req, res) => {
   });
 });
 
-app.get('/weather', (req, res) => {
+app.get('/weather', async (req, res) => {
   //console.log(res.query.address);
   if (req.query.address.trim().length == 0)
     return res.send({ error: 'You must provide a location !!!' });
+
+  try {
+    const data = await geocode(req.query.address);
+    const dataForecast = await forecast(data.latitude, data.longitude);
+    res.send({ forecast: dataForecast });
+  } catch (e) {
+    res.send({ error: e });
+  }
 
   /*  geocode(req.query.address, (error, data) => {
     if (error) return res.send({ error });
@@ -60,18 +69,16 @@ app.get('/weather', (req, res) => {
     });
   }); */
 
-  geocode(req.query.address)
+  /* geocode(req.query.address)
     .then((data) => {
-      //console.log(data);
       return forecast(data.latitude, data.longitude);
     })
     .then((dataForecast) => {
-      //    console.log(dataForecast);
       res.send({ forecast: dataForecast });
     })
     .catch((error) => {
       res.send({ error });
-    });
+    }); */
 });
 
 app.get('/:anything', (req, res) => {
