@@ -52,13 +52,29 @@ app.get('/weather', (req, res) => {
   if (req.query.address.trim().length == 0)
     return res.send({ error: 'You must provide a location !!!' });
 
-  geocode(req.query.address, (error, data) => {
+  /*  geocode(req.query.address, (error, data) => {
     if (error) return res.send({ error });
     forecast(data.latitude, data.longitude, (error, data) => {
       if (error) return res.send({ error });
       res.send({ forecast: data });
     });
-  });
+  }); */
+
+  geocode(req.query.address)
+    .then((data) => {
+      //console.log(data);
+      forecast(data.latitude, data.longitude)
+        .then((dataForecast) => {
+          //    console.log(dataForecast);
+          res.send({ forecast: dataForecast });
+        })
+        .catch((error) => {
+          res.send({ error });
+        });
+    })
+    .catch((error) => {
+      res.send({ error });
+    });
 });
 
 app.get('/:anything', (req, res) => {
