@@ -1,9 +1,9 @@
 const axios = require('axios');
 const handleAxiosError = require('./errorHandling');
 
-const forecast = (latitude, longitude) => {
+const forecast = async (latitude, longitude) => {
   url = `https://api.weatherstack.com/current?access_key=5ca7dfbc6505505ad4ec849c3de81481&query=${latitude},${longitude}`;
-  return new Promise((resolve, reject) => {
+  const result = await new Promise((resolve, reject) => {
     axios
       .get(url)
       .then((response) => {
@@ -34,6 +34,7 @@ const forecast = (latitude, longitude) => {
         reject(handleAxiosError(error));
       });
   });
+  return result;
 };
 
 module.exports = forecast;

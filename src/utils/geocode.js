@@ -1,10 +1,10 @@
 const axios = require('axios');
 const handleAxiosError = require('./errorHandling');
-const geocode = (address) => {
+const geocode = async (address) => {
   const url = `https://api.maptiler.com/geocoding/${encodeURIComponent(
     address
   )}.json?key=WpelftvIT8wQLX6z0cEI&limit=1`;
-  return new Promise((resolve, reject) => {
+  const result = await new Promise((resolve, reject) => {
     axios
       .get(url)
       .then((response) => {
@@ -23,6 +23,7 @@ const geocode = (address) => {
         reject(handleAxiosError(error));
       });
   });
+  return result;
 };
 
 /* geocode('_', (error, data) => {
